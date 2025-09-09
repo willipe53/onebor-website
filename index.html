@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="shortcut icon" href="favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="MyWebSite" />
+    <link rel="manifest" href="site.webmanifest" />
+    <title>One BOR</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: sans-serif;
+        text-align: center;
+        background-color: bisque;
+      }
+      h1 {
+        margin: 20px 0;
+        color: darkmagenta;
+      }
+      img {
+        display: block;
+        margin: 0 auto;
+        width: calc(100% - 100px); /* 50px margin on each side */
+        max-width: 100%; /* don’t overflow */
+        height: auto; /* keep aspect ratio */
+      }
+    </style>
+  </head>
+  <body>
+    <h1>1 BOR</h1>
+    <button id="toggleButton">🔊 Hear the Roar</button>
+    <audio id="boarSound" autoplay loop>
+      <source src="boar.mp3" type="audio/mpeg" />
+      Your browser does not support the audio element.
+    </audio>
+    <img src="boar.png" />
+    <script>
+      const audio = document.getElementById("boarSound");
+      const button = document.getElementById("toggleButton");
+
+      let isPlaying = false;
+
+      button.addEventListener("click", () => {
+        if (isPlaying) {
+          audio.pause();
+          button.textContent = "🔊 Hear the Roar";
+        } else {
+          audio.play();
+          button.textContent = "🔇 Mute the Boar";
+        }
+        isPlaying = !isPlaying;
+      });
+    </script>
+  </body>
+</html>
