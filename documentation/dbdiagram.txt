@@ -1,0 +1,127 @@
+// Use DBML to define your database structure
+// Docs: https://dbml.dbdiagram.io/docs
+
+Table entities {
+  entity_type_id integer
+  parent_entity_id integer
+  entity_id integer [primary key]
+  name varchar
+}
+
+Table entity_types {
+  entity_type_id integer [primary key]
+  name varchar
+}
+
+Table investor_attributes {
+  entity_id integer [primary key]
+  name varchar
+  address varchar
+  city varchar
+  state varchar
+}
+
+Table account_attributes {
+  entity_id integer [primary key]
+  name varchar
+  address varchar
+  city varchar
+  state varchar
+}
+
+Table equity_attributes {
+  entity_id integer [primary key]
+  name varchar
+  ISIN varchar(12)
+  ccy varchar(3)
+  issue_date date
+}
+
+Table fund_attributes {
+  entity_id integer [primary key]
+  name varchar
+  fund_type varchar
+  expense_ratio float
+  distribution_frequency integer
+}
+
+Table bond_attributes {
+  entity_id integer [primary key]
+  name varchar
+  bond_type varchar
+  coupon_rate float
+  coupon_frequency integer
+  maturity_date date
+}
+
+Table transactions {
+  party_entity_id integer
+  counterparty_entity_id integer
+  unit_entity_id integer
+  quantity float
+  price float
+  trade_date date
+  settle_date date
+  transaction_id integer [primary key]
+  transaction_type_id integer
+}
+
+Table transaction_types {
+  transaction_type_id integer
+  name varchar
+}
+
+Table strategies {
+  strategy_id integer [primary key]
+  scheme_id integer
+  name varchar
+}
+
+Table schemes {
+  scheme_id integer [primary key]
+  name varchar
+}
+
+Table strategy_transaction {
+  strategy_transaction_id integer [primary key]
+  strategy_id integer
+  transaction_id integer
+}
+
+Table tasks {
+  task_id integer [primary key]
+  name varchar
+  config JSON
+}
+
+Table snapshots {
+  snapshot_id integer [primary key]
+  pointer varchar
+}
+
+Table snapshot_task {
+  snapshot_task_id integer [primary key]
+  snapshot_id integer
+  task_id integer
+}
+
+
+Ref entity_type_constraint: entities.entity_type_id > entity_types.entity_type_id // many-to-one
+Ref transaction_type_constraint: transactions.transaction_type_id > transaction_types.transaction_type_id // many-to-one
+Ref parent_entity_constraint: entities.entity_id > entities.parent_entity_id // many-to-one
+Ref strategy_trans_constraint: strategy_transaction.strategy_id > strategies.strategy_id // many-to-one
+Ref trans_strategy_constraint: strategy_transaction.transaction_id > transactions.transaction_id // many-to-one
+Ref scheme_strategy_constraint: strategies.scheme_id > schemes.scheme_id // many-to-one
+
+Ref snapshot_task_constraint: snapshot_task.snapshot_id > snapshots.snapshot_id // many-to-one
+Ref task_snapshot_constraint: snapshot_task.task_id > tasks.task_id // many-to-one
+
+Ref party_entity_constraint: transactions.party_entity_id > entities.entity_id // many-to-one
+Ref counterparty_entity_constraint: transactions.counterparty_entity_id > entities.entity_id // many-to-one
+Ref unit_entity_constraint: transactions.unit_entity_id > entities.entity_id // many-to-one
+
+Ref: entities.entity_id - investor_attributes.entity_id
+Ref: entities.entity_id - account_attributes.entity_id
+Ref: entities.entity_id - equity_attributes.entity_id
+Ref: entities.entity_id - fund_attributes.entity_id
+Ref: entities.entity_id - bond_attributes.entity_id

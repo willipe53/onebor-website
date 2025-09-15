@@ -1,0 +1,41 @@
+
+Transaction Type, Party, Counterparty, Quantity, Units, Price, Trade Date, Settle Date, Strategies
+
+Capital
+
+Contribution, 
+Distribution,
+Subscription,
+Redemption,
+Capital Call,
+
+Investment
+
+Commitment,
+Buy, 
+Sell,
+Cover Short,
+Sell Short
+
+Corporate Action
+
+Cash Dividend
+Stock Dividend
+Interest Payment,
+Principal Repayment,
+Split,
+Acquisition,
+Spin-off,
+Exercise
+
+Administrative
+
+Management fees
+Performance fees
+Carried interest
+Operating expenses
+Securities lending income
+Sweep transactions
+Valuation adjustments
+
+

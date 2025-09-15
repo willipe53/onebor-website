@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Entity Setup Wizard</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+        max-width: 700px;
+        margin: auto;
+      }
+      .step {
+        display: none;
+      }
+      .step.active {
+        display: block;
+      }
+      .form-group {
+        margin-bottom: 10px;
+      }
+      label {
+        display: block;
+        font-weight: bold;
+      }
+      input,
+      select {
+        width: 100%;
+        padding: 6px;
+      }
+      .buttons {
+        margin-top: 20px;
+      }
+      .buttons button {
+        padding: 8px 16px;
+        margin-right: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Entity Setup Wizard</h1>
+
+    <form id="entityForm">
+      <!-- Step 1: Select Entity Type -->
+      <div class="step active" id="step1">
+        <div class="form-group">
+          <label for="entityType">Select Entity Type:</label>
+          <select id="entityType" name="entityType" required>
+            <option value="">-- Choose --</option>
+            <option value="Investment Manager">Investment Manager</option>
+            <option value="Investment">Investment</option>
+            <option value="Person">Person</option>
+          </select>
+        </div>
+
+        <div
+          class="form-group"
+          id="investmentSubtypeGroup"
+          style="display: none"
+        >
+          <label for="investmentSubtype">Select Investment Subtype:</label>
+          <select id="investmentSubtype" name="investmentSubtype">
+            <option value="">-- Choose Subtype --</option>
+            <option value="Public Equity">Public Equity</option>
+            <option value="Bonds">Bonds</option>
+            <option value="PE Fund">PE Fund</option>
+            <option value="Hedge Fund">Hedge Fund</option>
+            <option value="ETF">ETF</option>
+            <option value="Mutual Fund">Mutual Fund</option>
+            <option value="SMA">SMA</option>
+            <option value="Options">Options</option>
+            <option value="Futures">Futures</option>
+            <option value="Swaps">Swaps</option>
+          </select>
+        </div>
+
+        <div class="buttons">
+          <button type="button" onclick="nextStep()">Next</button>
+        </div>
+      </div>
+
+      <!-- Step 2: Common & Specific Fields -->
+      <div class="step" id="step2">
+        <div class="form-group">
+          <label for="name">Name:</label>
+          <input type="text" id="name" name="name" required />
+        </div>
+
+        <div class="form-group">
+          <label for="description">Description:</label>
+          <input type="text" id="description" name="description" required />
+        </div>
+
+        <!-- Address Fields -->
+        <div id="addressFields" style="display: none">
+          <div class="form-group">
+            <label for="address">Address:</label>
+            <input type="text" id="address" name="address" />
+          </div>
+        </div>
+
+        <!-- Identifier Fields -->
+        <div id="identifierFields" style="display: none">
+          <div class="form-group">
+            <label for="ticker">Ticker:</label>
+            <input type="text" id="ticker" name="ticker" />
+          </div>
+          <div class="form-group">
+            <label for="sedol">Sedol:</label>
+            <input type="text" id="sedol" name="sedol" />
+          </div>
+          <div class="form-group">
+            <label for="cusip">Cusip:</label>
+            <input type="text" id="cusip" name="cusip" />
+          </div>
+          <div class="form-group">
+            <label for="customIdentifier">Custom Identifier:</label>
+            <input type="text" id="customIdentifier" name="customIdentifier" />
+          </div>
+        </div>
+
+        <!-- Custom Attributes -->
+        <div id="customAttributes">
+          <h3>Custom Attributes</h3>
+          <div class="form-group">
+            <label for="custom1">Custom Field 1:</label>
+            <input type="text" id="custom1" name="custom1" />
+          </div>
+          <div class="form-group">
+            <label for="custom2">Custom Field 2:</label>
+            <input type="text" id="custom2" name="custom2" />
+          </div>
+        </div>
+
+        <div class="buttons">
+          <button type="button" onclick="prevStep()">Back</button>
+          <button type="submit">Submit</button>
+        </div>
+      </div>
+    </form>
+
+    <script>
+      const entityTypeEl = document.getElementById("entityType");
+      const investmentSubtypeGroup = document.getElementById(
+        "investmentSubtypeGroup"
+      );
+      const investmentSubtypeEl = document.getElementById("investmentSubtype");
+      const addressFields = document.getElementById("addressFields");
+      const identifierFields = document.getElementById("identifierFields");
+
+      const identifierSubtypes = [
+        "Public Equity",
+        "Bonds",
+        "ETF",
+        "Mutual Fund",
+        "Options",
+        "Futures",
+      ];
+
+      entityTypeEl.addEventListener("change", () => {
+        const type = entityTypeEl.value;
+        investmentSubtypeGroup.style.display =
+          type === "Investment" ? "block" : "none";
+      });
+
+      investmentSubtypeEl.addEventListener("change", updateConditionalFields);
+
+      function updateConditionalFields() {
+        const type = entityTypeEl.value;
+        const subtype = investmentSubtypeEl.value;
+
+        // Address
+        if (type === "Investment Manager" || type === "Person") {
+          addressFields.style.display = "block";
+        } else {
+          addressFields.style.display = "none";
+        }
+
+        // Identifier Fields
+        if (type === "Investment" && identifierSubtypes.includes(subtype)) {
+          identifierFields.style.display = "block";
+        } else {
+          identifierFields.style.display = "none";
+        }
+      }
+
+      function nextStep() {
+        const type = entityTypeEl.value;
+        if (!type || (type === "Investment" && !investmentSubtypeEl.value)) {
+          alert("Please select all required fields.");
+          return;
+        }
+        updateConditionalFields();
+        document.getElementById("step1").classList.remove("active");
+        document.getElementById("step2").classList.add("active");
+      }
+
+      function prevStep() {
+        document.getElementById("step2").classList.remove("active");
+        document.getElementById("step1").classList.add("active");
+      }
+
+      document.getElementById("entityForm").addEventListener("submit", (e) => {
+        e.preventDefault();
+        alert("Form submitted! You can now process the data.");
+        // You could serialize and send this data to your backend here.
+      });
+    </script>
+  </body>
+</html>

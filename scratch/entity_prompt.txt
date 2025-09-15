@@ -1,0 +1,13 @@
+
+I have created a mysql database in AWS RDS using the attached SQL.   Please create for me the following Lambda functions to read and write data in that database:
+
+- getPandaEntityTypes()
+- updatePandaEntityType(entity_type_id, name, attributes_schema) lambda. If entity_type_id is not provided, create new record, else modify the record.  
+- getPandaEntities(entity_id, name, entity_type_id, parent_entity_id) lambda. If all fields are null, return all entities.  entity_id will return exactly one record.  Name can be passed as a partial string by appending '%' and will return all entities that start with that string. entity_type_id and parent_entity_id, if passed, will return all entities that match one or both.
+- updatePandaEntity(entity_id, name, entity_type_id, parent_entity_id, attributes) lambda.  if entity_id is not passed, create new record, else modify the record.  if attributes is passed, the lambda should perform a JSON_SET so that the user can send only those attributes that require modification.
+
+
+Now that I have getPandaEntityTypes working, I would like to expose it in an API gateway named panda as a post resource protected by a cognito authorizor.  I have created a Cognito user pool called PandaCognitoUserPool and an associated identity pool PandaIdentityPool.
+
+
+

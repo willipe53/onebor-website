@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Agentic Dashboard</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 2rem;
+        background: #f8f9fa;
+      }
+      h2 {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+      }
+      form,
+      table {
+        background: #fff;
+        padding: 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        margin-bottom: 2rem;
+      }
+      label {
+        display: block;
+        font-weight: bold;
+        margin-top: 1rem;
+        margin-bottom: 0.5rem;
+      }
+      input[type="text"],
+      select {
+        width: 100%;
+        padding: 0.5rem;
+        font-size: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+      .form-row {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+      .form-row > div {
+        flex: 1;
+      }
+      button {
+        margin-top: 1.5rem;
+        padding: 0.75rem 1.25rem;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 1rem;
+      }
+      .primary {
+        background: #007bff;
+        color: #fff;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      table th,
+      table td {
+        text-align: left;
+        padding: 0.75rem;
+        border-bottom: 1px solid #ddd;
+      }
+      table th {
+        background: #f1f3f5;
+      }
+      .actions button {
+        margin-right: 0.5rem;
+        padding: 0.4rem 0.8rem;
+        font-size: 0.9rem;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Create New Agent</h2>
+    <form>
+      <label for="agentName">Agent Name</label>
+      <input
+        type="text"
+        id="agentName"
+        name="agentName"
+        placeholder="e.g. Check Tracking Error"
+      />
+
+      <div class="form-row">
+        <div>
+          <label for="agentType">Agent Type</label>
+          <select id="agentType" name="agentType">
+            <option>Calculation Task</option>
+            <option>Data Fetcher</option>
+            <option>LLM Agent</option>
+          </select>
+        </div>
+        <div>
+          <label for="trigger">Trigger</label>
+          <select id="trigger" name="trigger">
+            <option>Manual</option>
+            <option>Schedule</option>
+            <option>Event-Driven</option>
+          </select>
+        </div>
+      </div>
+
+      <label for="dataSources">Data Sources</label>
+      <select id="dataSources" name="dataSources" multiple>
+        <option>Positions DB</option>
+        <option>NAV API</option>
+        <option>News Feed</option>
+      </select>
+
+      <button type="submit" class="primary">Add Agent</button>
+    </form>
+
+    <h2>Active Agents</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Agent Name</th>
+          <th>Type</th>
+          <th>Status</th>
+          <th>Last Run</th>
+          <th>Next Run</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Check Tracking Error</td>
+          <td>Calculation Task</td>
+          <td>Running</td>
+          <td>2025-09-09 22:00</td>
+          <td>2025-09-10 22:00</td>
+          <td class="actions">
+            <button>Pause</button>
+            <button>View Log</button>
+          </td>
+        </tr>
+        <tr>
+          <td>Gather Latest NAVs</td>
+          <td>Data Fetcher</td>
+          <td>Success</td>
+          <td>2025-09-10 08:15</td>
+          <td>2025-09-10 12:00</td>
+          <td class="actions">
+            <button>Rerun</button>
+            <button>Edit</button>
+          </td>
+        </tr>
+        <tr>
+          <td>Check News Alerts</td>
+          <td>LLM Agent</td>
+          <td>Idle</td>
+          <td>—</td>
+          <td>Event-Driven</td>
+          <td class="actions">
+            <button>Start</button>
+            <button>Edit</button>
+          </td>
+        </tr>
+        <tr>
+          <td>Mark Derivatives to Market</td>
+          <td>Calculation Task</td>
+          <td>Success</td>
+          <td>2025-09-09 17:30</td>
+          <td>2025-09-10 17:30</td>
+          <td class="actions">
+            <button>View Report</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>
