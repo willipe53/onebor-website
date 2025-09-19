@@ -1,0 +1,16 @@
+I have modified the tables invitations, client_group_users, and users. user_id is now an autoincrement integer.  Superfluous fields have been removed so invitations is limited to a primary key, code, expires_at, and client_group_id.  You can see the DDL in the database/create_client_group_tables.sql.  This is already done so do not run that file.  
+
+Please make suggested modifications to getPandaClientGroups.py, getPandaUsers.py, updatePandaUser.py, managePandaInvitation.py and any other lambda files that are impacted by these database changes.  The "redeem" action will now simply reset the expires_at to now.
+
+Do not deploy these changes yet.
+
+
+if a user goes to an accept_invitation link, this should be the workflow:
+
+- store code for later use
+- ask user to login or sign up
+- ensure that user record for this user is created in user table 
+- prompt user that they have been invited to join <client group name>
+- add the user's user_id to the membership of that client group
+- if there is no primary_client_group_id for that user, set it to that client group
+- set the invitation as redeemed
